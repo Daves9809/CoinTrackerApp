@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/coinsFragment"
+        android:icon="@drawable/ic_coin_24"
+        android:title="Coins" />
+
+    <item
+        android:id="@+id/savedCoinsFragment"
+        android:icon="@drawable/ic_favourite_24"
+        android:title="Saved Coins" />
+</menu>
