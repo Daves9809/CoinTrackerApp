@@ -13,6 +13,7 @@ import com.example.cointracker.data.util.Resource
 import com.example.cointracker.domain.useCases.GetCoinsFromAPIUseCase
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import kotlin.math.roundToInt
 
 class CoinsViewModel(
     private val app: Application,
@@ -66,5 +67,21 @@ class CoinsViewModel(
         }
         return false
 
+    }
+
+    fun formatHour(lastUpdated: String?): String {
+        val data = lastUpdated!!.take(19)
+        val partOne = data.take(10)
+        val partSecond = data.takeLast(8)
+        return "$partOne at $partSecond"
+    }
+
+    fun roundDoubleTo2PlacesAfterComa(double: Double): Double{
+        val roundedDouble = (double * 100.0).roundToInt() / 100.0
+        return roundedDouble
+    }
+    fun roundDoubleTo4PlacesAfterComa(double: Double): Double{
+        val roundedDouble = (double * 10000.0).roundToInt() / 10000.0
+        return roundedDouble
     }
 }

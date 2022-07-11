@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cointracker.data.util.Resource
 import com.example.cointracker.databinding.FragmentCoinsBinding
@@ -35,6 +36,12 @@ class CoinsFragment : Fragment() {
         coinsAdapter = (activity as MainActivity).coinsAdapter
         initRecyclerView()
         viewCoinList()
+        coinsAdapter.setOnItemClickListener {
+            val bundle : Bundle = Bundle().apply {
+                putSerializable("selected_coin",it)
+            }
+            findNavController().navigate(R.id.action_coinsFragment_to_coinInfoFragment,bundle)
+        }
     }
 
     private fun viewCoinList() {
