@@ -1,7 +1,10 @@
 package com.example.cointracker.presentation.di
 
 import android.app.Application
+import com.example.cointracker.domain.useCases.DeleteCoinFromDBUseCase
 import com.example.cointracker.domain.useCases.GetCoinsFromAPIUseCase
+import com.example.cointracker.domain.useCases.GetSavedCoinsUseCase
+import com.example.cointracker.domain.useCases.SaveCoinToDBUseCase
 import com.example.cointracker.presentation.viewModel.CoinsViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -17,11 +20,17 @@ class FactoryModule {
     @Provides
     fun provideCoinsViewModelFactory(
         app: Application,
-        getCoinsFromAPIUseCase: GetCoinsFromAPIUseCase
+        getCoinsFromAPIUseCase: GetCoinsFromAPIUseCase,
+        saveCoinsUseCase: SaveCoinToDBUseCase,
+        getSavedCoinsUseCase: GetSavedCoinsUseCase,
+        deleteCoinFromDBUseCase: DeleteCoinFromDBUseCase
     ) : CoinsViewModelFactory {
         return CoinsViewModelFactory(
             app,
-            getCoinsFromAPIUseCase
+            getCoinsFromAPIUseCase,
+            saveCoinsUseCase,
+            getSavedCoinsUseCase,
+            deleteCoinFromDBUseCase
         )
     }
 

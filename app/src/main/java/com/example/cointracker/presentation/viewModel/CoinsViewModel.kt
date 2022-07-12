@@ -7,17 +7,26 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.example.cointracker.data.model.Coin
 import com.example.cointracker.data.model.CoinList
 import com.example.cointracker.data.util.Resource
+import com.example.cointracker.domain.useCases.DeleteCoinFromDBUseCase
 import com.example.cointracker.domain.useCases.GetCoinsFromAPIUseCase
+import com.example.cointracker.domain.useCases.GetSavedCoinsUseCase
+import com.example.cointracker.domain.useCases.SaveCoinToDBUseCase
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.math.roundToInt
 
 class CoinsViewModel(
     private val app: Application,
-    private val getCoinsFromAPIUseCase: GetCoinsFromAPIUseCase
+    private val getCoinsFromAPIUseCase: GetCoinsFromAPIUseCase,
+    private val saveCoinsUseCase: SaveCoinToDBUseCase,
+    private val getSavedCoinsUseCase: GetSavedCoinsUseCase,
+    private val deleteCoinFromDBUseCase: DeleteCoinFromDBUseCase
 ): AndroidViewModel(app) {
 
     val coins: MutableLiveData<Resource<CoinList>> = MutableLiveData()
@@ -84,4 +93,21 @@ class CoinsViewModel(
         val roundedDouble = (double * 10000.0).roundToInt() / 10000.0
         return roundedDouble
     }
+
+    //local data - room
+
+    fun saveCoin(coin: Coin) = viewModelScope.launch {
+        saveCoinsUseCase.execute(coin)
+    }
+
+    fun getSavedCoins() = liveData {
+        getSavedCoinsUseCase.execute().collect{
+            emit(it)
+        }
+    }
+
+    fun deleteCoin(coin: Coin) = viewModelScope.launch {
+        deleteCoinFromDBUseCase.execute(coin)
+    }
+
 }

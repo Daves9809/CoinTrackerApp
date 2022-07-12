@@ -1,6 +1,7 @@
 package com.example.cointracker.presentation.di
 
 import com.example.cointracker.data.repository.CoinsRepositoryImpl
+import com.example.cointracker.data.repository.dataSource.CoinsLocalDataSource
 import com.example.cointracker.data.repository.dataSource.CoinsRemoteDataSource
 import com.example.cointracker.data.repository.dataSourceImpl.CoinsRemoteDataSourceImpl
 import com.example.cointracker.domain.repository.CoinsRepository
@@ -17,8 +18,9 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideCoinsRepository(
-        coinsRemoteDataSource: CoinsRemoteDataSource
+        coinsRemoteDataSource: CoinsRemoteDataSource,
+        coinsLocalDataSource: CoinsLocalDataSource
     ) : CoinsRepository{
-        return CoinsRepositoryImpl(coinsRemoteDataSource)
+        return CoinsRepositoryImpl(coinsRemoteDataSource,coinsLocalDataSource)
     }
 }
