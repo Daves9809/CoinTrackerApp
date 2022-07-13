@@ -19,7 +19,7 @@ Functionalities of application:
 <img src="./screenshots/coin_info.png" width="30%" height="30%">
 
 ### Application behavior
-<img src="./gifs/app_behavior.gif" width="30%" height="30%">
+<img src="./gifs/app_behavior.gif" width="100%" height="100%">
 
 ## Installation
 1. Download .zip 
