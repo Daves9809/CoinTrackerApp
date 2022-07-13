@@ -5,17 +5,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.example.cointracker.data.model.Coin
 import com.example.cointracker.data.model.CoinList
 import com.example.cointracker.data.util.Resource
-import com.example.cointracker.domain.useCases.DeleteCoinFromDBUseCase
-import com.example.cointracker.domain.useCases.GetCoinsFromAPIUseCase
-import com.example.cointracker.domain.useCases.GetSavedCoinsUseCase
-import com.example.cointracker.domain.useCases.SaveCoinToDBUseCase
+import com.example.cointracker.domain.useCases.*
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -26,22 +22,25 @@ class CoinsViewModel(
     private val getCoinsFromAPIUseCase: GetCoinsFromAPIUseCase,
     private val saveCoinsUseCase: SaveCoinToDBUseCase,
     private val getSavedCoinsUseCase: GetSavedCoinsUseCase,
-    private val deleteCoinFromDBUseCase: DeleteCoinFromDBUseCase
-): AndroidViewModel(app) {
+    private val deleteCoinFromDBUseCase: DeleteCoinFromDBUseCase,
+    private val updateCoinsUseCase: UpdateCoinsUseCase
+) : AndroidViewModel(app) {
 
     val coins: MutableLiveData<Resource<CoinList>> = MutableLiveData()
 
-    fun getCoinsFromAPI(){
+
+    fun getCoinsFromAPI() {
         viewModelScope.launch {
             coins.postValue(Resource.Loading())
-            try{
-                if(isNetworkAvailable(app)){
+            try {
+                if (isNetworkAvailable(app)) {
                     val apiResult = getCoinsFromAPIUseCase.execute()
                     coins.postValue(apiResult)
+
                 } else {
                     coins.postValue(Resource.Error("Internet is not connected"))
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 coins.postValue(Resource.Error(e.message.toString()))
             }
         }
@@ -85,11 +84,12 @@ class CoinsViewModel(
         return "$partOne at $partSecond"
     }
 
-    fun roundDoubleTo2PlacesAfterComa(double: Double): Double{
+    fun roundDoubleTo2PlacesAfterComa(double: Double): Double {
         val roundedDouble = (double * 100.0).roundToInt() / 100.0
         return roundedDouble
     }
-    fun roundDoubleTo4PlacesAfterComa(double: Double): Double{
+
+    fun roundDoubleTo4PlacesAfterComa(double: Double): Double {
         val roundedDouble = (double * 10000.0).roundToInt() / 10000.0
         return roundedDouble
     }
@@ -101,13 +101,18 @@ class CoinsViewModel(
     }
 
     fun getSavedCoins() = liveData {
-        getSavedCoinsUseCase.execute().collect{
+        getSavedCoinsUseCase.execute().collect {
             emit(it)
         }
     }
 
     fun deleteCoin(coin: Coin) = viewModelScope.launch {
         deleteCoinFromDBUseCase.execute(coin)
+    }
+
+    fun updateCoins(listAPICoins: List<Coin>, listDBCoins: List<Coin>) = viewModelScope.launch {
+        val coinsToUpdate = listAPICoins.filter { listDBCoins.map { it.cmcRank }.contains(it.cmcRank) }
+        updateCoinsUseCase.execute(coinsToUpdate)
     }
 
 }

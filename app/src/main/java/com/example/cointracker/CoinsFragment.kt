@@ -1,6 +1,7 @@
 package com.example.cointracker
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cointracker.data.model.Coin
 import com.example.cointracker.data.util.Resource
 import com.example.cointracker.databinding.FragmentCoinsBinding
 import com.example.cointracker.presentation.adapter.CoinsAdapter
@@ -20,6 +22,8 @@ class CoinsFragment : Fragment() {
     private var _binding: FragmentCoinsBinding? = null
     private val binding get() = _binding!!
     private var isLoading = false
+    private lateinit var coinsAPI : List<Coin>
+    private lateinit var coinsDB: List<Coin>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +40,20 @@ class CoinsFragment : Fragment() {
         coinsAdapter = (activity as MainActivity).coinsAdapter
         initRecyclerView()
         viewCoinList()
+        getCoinsDB()
         coinsAdapter.setOnItemClickListener {
             val bundle : Bundle = Bundle().apply {
                 putSerializable("selected_coin",it)
             }
             findNavController().navigate(R.id.action_coinsFragment_to_coinInfoFragment,bundle)
         }
+        refreshApp()
+    }
+
+    private fun getCoinsDB() {
+        viewModel.getSavedCoins().observe(viewLifecycleOwner, Observer {
+            coinsDB = it
+        })
     }
 
     private fun viewCoinList() {
@@ -51,7 +63,9 @@ class CoinsFragment : Fragment() {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {
-                        coinsAdapter.differ.submitList(it.data?.toList())
+                        val list = it.data?.toList()
+                        coinsAPI = list!!
+                        coinsAdapter.differ.submitList(list)
                     }
                 }
                 is Resource.Error -> {
@@ -87,5 +101,13 @@ class CoinsFragment : Fragment() {
     private fun hideProgressBar() {
         isLoading = false
         binding.progressBar.visibility = View.INVISIBLE
+    }
+
+    private fun refreshApp() {
+        binding.swipeToRefreshCoinsFragment.setOnRefreshListener {
+            Toast.makeText(activity, "Data refreshed!", Toast.LENGTH_SHORT).show()
+            binding.swipeToRefreshCoinsFragment.isRefreshing = false
+            viewModel.updateCoins(coinsAPI,coinsDB)
+        }
     }
 }

@@ -1,18 +1,19 @@
 package com.example.cointracker.data.repository
 
+import android.util.Log
 import com.example.cointracker.data.model.Coin
 import com.example.cointracker.data.model.CoinList
 import com.example.cointracker.data.repository.dataSource.CoinsLocalDataSource
 import com.example.cointracker.data.repository.dataSource.CoinsRemoteDataSource
 import com.example.cointracker.data.util.Resource
 import com.example.cointracker.domain.repository.CoinsRepository
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import retrofit2.Response
 
 class CoinsRepositoryImpl(
     private val coinsRemoteDataSource: CoinsRemoteDataSource,
     private val coinsLocalDataSource: CoinsLocalDataSource
-): CoinsRepository {
+) : CoinsRepository {
 
     private fun responseToResource(response: Response<CoinList>): Resource<CoinList> {
         if (response.isSuccessful) {
@@ -38,4 +39,9 @@ class CoinsRepositoryImpl(
     override fun getSavedCoins(): Flow<List<Coin>> {
         return coinsLocalDataSource.getSavedCoinsFromDB()
     }
+
+    override suspend fun updateCoins(coins: List<Coin>){
+        coins.forEach { saveCoinToDB(it) }
+    }
+
 }

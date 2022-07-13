@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 class GetSavedCoinsUseCase(private val coinsRepository: CoinsRepository) {
 
-    suspend fun execute() : Flow<List<Coin>> = coinsRepository.getSavedCoins()
+    fun execute() : Flow<List<Coin>> = coinsRepository.getSavedCoins()
 
 }

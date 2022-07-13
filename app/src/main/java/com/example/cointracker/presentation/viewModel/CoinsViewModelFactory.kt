@@ -3,17 +3,15 @@ package com.example.cointracker.presentation.viewModel
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.cointracker.domain.useCases.DeleteCoinFromDBUseCase
-import com.example.cointracker.domain.useCases.GetCoinsFromAPIUseCase
-import com.example.cointracker.domain.useCases.GetSavedCoinsUseCase
-import com.example.cointracker.domain.useCases.SaveCoinToDBUseCase
+import com.example.cointracker.domain.useCases.*
 
 class CoinsViewModelFactory(
     val app: Application,
     val getCoinsFromAPIUseCase: GetCoinsFromAPIUseCase,
     val saveCoinsUseCase: SaveCoinToDBUseCase,
     val getSavedCoinsUseCase: GetSavedCoinsUseCase,
-    val deleteCoinFromDBUseCase: DeleteCoinFromDBUseCase
+    val deleteCoinFromDBUseCase: DeleteCoinFromDBUseCase,
+    val updateCoinsUseCase: UpdateCoinsUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return CoinsViewModel(
@@ -21,7 +19,8 @@ class CoinsViewModelFactory(
             getCoinsFromAPIUseCase,
             saveCoinsUseCase,
             getSavedCoinsUseCase,
-            deleteCoinFromDBUseCase
+            deleteCoinFromDBUseCase,
+            updateCoinsUseCase
         ) as T
     }
 }

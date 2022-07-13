@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.cointracker.data.model.Coin
 import com.example.cointracker.data.util.converters.Converters
+import com.example.cointracker.data.util.converters.JsonParser
 
 @Database(
     entities = [Coin::class],
@@ -12,7 +13,7 @@ import com.example.cointracker.data.util.converters.Converters
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class CoinDatabase : RoomDatabase() {
+abstract class CoinDatabase() : RoomDatabase() {
 
     abstract fun getCoinDAO(): CoinDAO
 

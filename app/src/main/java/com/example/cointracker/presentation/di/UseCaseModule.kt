@@ -1,10 +1,7 @@
 package com.example.cointracker.presentation.di
 
 import com.example.cointracker.domain.repository.CoinsRepository
-import com.example.cointracker.domain.useCases.DeleteCoinFromDBUseCase
-import com.example.cointracker.domain.useCases.GetCoinsFromAPIUseCase
-import com.example.cointracker.domain.useCases.GetSavedCoinsUseCase
-import com.example.cointracker.domain.useCases.SaveCoinToDBUseCase
+import com.example.cointracker.domain.useCases.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,5 +35,11 @@ class UseCaseModule {
     fun provideDeleteCoinFromDBUseCase(
         coinsRepository: CoinsRepository
     ) : DeleteCoinFromDBUseCase = DeleteCoinFromDBUseCase(coinsRepository)
+
+    @Singleton
+    @Provides
+    fun provideUpdateCoinsUseCase(
+        coinsRepository: CoinsRepository
+    ) : UpdateCoinsUseCase = UpdateCoinsUseCase(coinsRepository)
 
 }

@@ -17,9 +17,10 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideCoinsDatabase(app: Application): CoinDatabase {
+    fun provideCoinsDatabase(converters: Converters, app: Application): CoinDatabase {
         return Room.databaseBuilder(app,CoinDatabase::class.java,"coins_db")
             .fallbackToDestructiveMigration()
+            .addTypeConverter(converters)
             .build()
     }
 

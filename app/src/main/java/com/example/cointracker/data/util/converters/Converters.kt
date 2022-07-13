@@ -6,20 +6,21 @@ import com.example.cointracker.data.model.Quote
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+@ProvidedTypeConverter
 class Converters(
+    private val jsonParser: JsonParser
 ) {
-    private val gson = Gson()
 
     @TypeConverter
     fun toQuoteJson(quote: Quote): String{
-        return gson.toJson(
+        return jsonParser.toJson(
             quote,
             object : TypeToken<Quote>(){}.type
         ) ?: "[]"
     }
     @TypeConverter
     fun fromQuoteJson(json: String): Quote{
-        return gson.fromJson<Quote>(
+        return jsonParser.fromJson<Quote>(
             json,
             object: TypeToken<Quote>(){}.type
         ) ?: Quote(null)
@@ -27,14 +28,14 @@ class Converters(
 
     @TypeConverter
     fun toStringJson(meaning: List<String?>?) : String {
-        return gson.toJson(
+        return jsonParser.toJson(
             meaning,
             object : TypeToken<List<String>>(){}.type
         ) ?: "[]"
     }
     @TypeConverter
     fun fromStringsJson(json: String): List<String>{
-        return gson.fromJson<List<String>>(
+        return jsonParser.fromJson<List<String>>(
             json,
             object: TypeToken<List<String>>(){}.type
         ) ?: emptyList()

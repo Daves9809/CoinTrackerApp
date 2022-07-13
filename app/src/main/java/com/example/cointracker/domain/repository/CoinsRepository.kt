@@ -15,5 +15,7 @@ interface CoinsRepository {
 
     fun getSavedCoins() : Flow<List<Coin>>
 
+    suspend fun updateCoins(coins: List<Coin>)
+
 
 }

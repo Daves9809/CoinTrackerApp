@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CoinList(
     @SerializedName("data")
-    val `data`: List<Coin?>?,
+    val `data`: List<Coin>?,
     @SerializedName("status")
     val status: Status?
 )
