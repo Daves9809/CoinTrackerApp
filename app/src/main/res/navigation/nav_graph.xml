@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/coinsFragment"
-        android:name="com.example.cointracker.CoinsFragment"
+        android:name="com.example.cointracker.presentation.CoinsFragment"
         android:label="fragment_coins"
         tools:layout="@layout/fragment_coins" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/savedCoinsFragment"
-        android:name="com.example.cointracker.SavedCoinsFragment"
+        android:name="com.example.cointracker.presentation.SavedCoinsFragment"
         android:label="fragment_saved_coins"
         tools:layout="@layout/fragment_saved_coins" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/coinInfoFragment"
-        android:name="com.example.cointracker.CoinInfoFragment"
+        android:name="com.example.cointracker.presentation.CoinInfoFragment"
         android:label="fragment_coin_info"
         tools:layout="@layout/fragment_coin_info" >
         <argument

@@ -1,4 +1,4 @@
-package com.example.cointracker
+package com.example.cointracker.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cointracker.databinding.FragmentCoinsBinding
+import com.example.cointracker.R
 import com.example.cointracker.databinding.FragmentSavedCoinsBinding
 import com.example.cointracker.presentation.adapter.CoinsAdapter
 import com.example.cointracker.presentation.viewModel.CoinsViewModel

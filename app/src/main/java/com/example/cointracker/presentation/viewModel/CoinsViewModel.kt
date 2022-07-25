@@ -29,11 +29,11 @@ class CoinsViewModel(
     val coins: MutableLiveData<Resource<CoinList>> = MutableLiveData()
 
 
-    fun getCoinsFromAPI() {
+    fun getCoinsFromAPI(isNetworkAvailable: Boolean = isNetworkAvailable(app)) {
         viewModelScope.launch {
             coins.postValue(Resource.Loading())
             try {
-                if (isNetworkAvailable(app)) {
+                if (isNetworkAvailable) {
                     val apiResult = getCoinsFromAPIUseCase.execute()
                     coins.postValue(apiResult)
 
@@ -78,21 +78,16 @@ class CoinsViewModel(
     }
 
     fun formatHour(lastUpdated: String?): String {
-        val data = lastUpdated!!.take(19)
-        val partOne = data.take(10)
-        val partSecond = data.takeLast(8)
-        return "$partOne at $partSecond"
+        return lastUpdated?.replace("T", " at ")?.dropLast(5) ?: "Update's hour not found"
     }
 
-    fun roundDoubleTo2PlacesAfterComa(double: Double): Double {
-        val roundedDouble = (double * 100.0).roundToInt() / 100.0
-        return roundedDouble
-    }
+    fun roundDoubleTo2PlacesAfterComa(double: Double): Double =
+        (double * 100.0).roundToInt() / 100.0
 
-    fun roundDoubleTo4PlacesAfterComa(double: Double): Double {
-        val roundedDouble = (double * 10000.0).roundToInt() / 10000.0
-        return roundedDouble
-    }
+
+    fun roundDoubleTo4PlacesAfterComa(double: Double): Double =
+        (double * 10000.0).roundToInt() / 10000.0
+
 
     //local data - room
 
@@ -111,7 +106,8 @@ class CoinsViewModel(
     }
 
     fun updateCoins(listAPICoins: List<Coin>, listDBCoins: List<Coin>) = viewModelScope.launch {
-        val coinsToUpdate = listAPICoins.filter { listDBCoins.map { it.cmcRank }.contains(it.cmcRank) }
+        val coinsToUpdate =
+            listAPICoins.filter { listDBCoins.map { it.cmcRank }.contains(it.cmcRank) }
         updateCoinsUseCase.execute(coinsToUpdate)
     }
 

@@ -1,4 +1,4 @@
-package com.example.cointracker
+package com.example.cointracker.presentation
 
 import android.graphics.Color
 import android.os.Bundle
@@ -10,12 +10,10 @@ import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.example.cointracker.data.model.Coin
 import com.example.cointracker.databinding.FragmentCoinInfoBinding
-import com.example.cointracker.databinding.FragmentCoinsBinding
 import com.example.cointracker.presentation.viewModel.CoinsViewModel
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import java.math.BigInteger
 import kotlin.math.roundToInt
 
 

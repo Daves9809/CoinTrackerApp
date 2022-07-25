@@ -1,7 +1,6 @@
-package com.example.cointracker
+package com.example.cointracker.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cointracker.R
 import com.example.cointracker.data.model.Coin
 import com.example.cointracker.data.util.Resource
 import com.example.cointracker.databinding.FragmentCoinsBinding

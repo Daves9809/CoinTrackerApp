@@ -1,4 +1,4 @@
-package com.example.cointracker.presentation
+package com.example.cointracker
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

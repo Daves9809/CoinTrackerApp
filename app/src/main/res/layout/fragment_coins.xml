@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
 
         android:background="@color/bnv_background"
-        tools:context=".CoinsFragment">
+        tools:context=".presentation.CoinsFragment">
 
 
         <LinearLayout

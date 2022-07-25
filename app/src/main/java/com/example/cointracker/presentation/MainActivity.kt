@@ -1,14 +1,11 @@
-package com.example.cointracker
+package com.example.cointracker.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.cointracker.data.model.Coin
+import com.example.cointracker.R
 import com.example.cointracker.databinding.ActivityMainBinding
 import com.example.cointracker.presentation.adapter.CoinsAdapter
 import com.example.cointracker.presentation.viewModel.CoinsViewModel
